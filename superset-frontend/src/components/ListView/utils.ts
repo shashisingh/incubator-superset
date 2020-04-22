@@ -33,6 +33,8 @@ import {
   useQueryParams,
 } from 'use-query-params';
 
+import { useHistory } from 'react-router-dom';
+
 import {
   FetchDataConfig,
   Filter,
@@ -205,9 +207,32 @@ export function useListViewState({
       queryParams.sortColumn = sortBy[0].id;
       queryParams.sortOrder = sortBy[0].desc ? 'desc' : 'asc';
     }
-    setQuery(queryParams);
+    // console.log(query);
+    if (
+      query.pageIndex ||
+      query.sortColumn ||
+      query.sortOrder ||
+      query.filters
+    ) {
+      setQuery(queryParams, 'replace');
+    } else {
+      setQuery(queryParams, 'push');
+    }
     fetchData({ pageIndex, pageSize, sortBy, filters });
   }, [fetchData, pageIndex, pageSize, sortBy, filters]);
+
+  const history = useHistory();
+
+  useEffect(() => {
+    return () => {
+      if (history.action === 'POP') {
+        console.log(history);
+        window.location.reload(
+          history.location.pathname + history.location.search,
+        );
+      }
+    };
+  }, [history.location, history.action]);
 
   const filtersApplied = internalFilters.every(
     ({ id, value, operator }, index) =>
