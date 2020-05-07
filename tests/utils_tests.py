@@ -36,6 +36,7 @@ from superset.models.core import Database
 from superset.utils.cache_manager import CacheManager
 from superset.utils.core import (
     base_json_conv,
+    cast_to_num,
     convert_legacy_filters_into_adhoc,
     create_ssl_cert_file,
     datetime_f,
@@ -1328,3 +1329,11 @@ class UtilsTestCase(SupersetTestCase):
             )
 
             self.assertEqual(slc, None)
+
+    def test_cast_to_num(self) -> None:
+        self.assertEqual(cast_to_num("5"), 5)
+        self.assertEqual(cast_to_num("5.2"), 5.2)
+        self.assertEqual(cast_to_num(10), 10)
+        self.assertEqual(cast_to_num(10.1), 10.1)
+        self.assertIsNone(cast_to_num(None))
+        self.assertIsNone(cast_to_num("this is not a string"))
