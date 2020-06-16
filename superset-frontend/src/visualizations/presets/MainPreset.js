@@ -21,6 +21,7 @@ import {
   BigNumberChartPlugin,
   BigNumberTotalChartPlugin,
 } from '@superset-ui/legacy-preset-chart-big-number';
+import { HelloWorldChartPlugin } from '@superset-ui/plugin-chart-hello-world';
 import CalendarChartPlugin from '@superset-ui/legacy-plugin-chart-calendar';
 import ChordChartPlugin from '@superset-ui/legacy-plugin-chart-chord';
 import CountryMapChartPlugin from '@superset-ui/legacy-plugin-chart-country-map';
@@ -69,6 +70,7 @@ export default class MainPreset extends Preset {
       presets: [new DeckGLChartPreset()],
       plugins: [
         new AreaChartPlugin().configure({ key: 'area' }),
+        new HelloWorldChartPlugin().configure({ key: 'hello_world' }),
         new BarChartPlugin().configure({ key: 'bar' }),
         new BigNumberChartPlugin().configure({ key: 'big_number' }),
         new BigNumberTotalChartPlugin().configure({ key: 'big_number_total' }),
