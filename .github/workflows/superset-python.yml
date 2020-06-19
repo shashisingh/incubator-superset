@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-18.04
     strategy:
       matrix:
-        python-version: [3.6]
+        python-version: [3.7]
     env:
       PYTHON_LINT_TARGET: setup.py superset tests
     steps:
@@ -33,7 +33,7 @@ jobs:
     runs-on: ubuntu-18.04
     strategy:
       matrix:
-        python-version: [3.6]
+        python-version: [3.7]
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -54,7 +54,7 @@ jobs:
     runs-on: ubuntu-18.04
     strategy:
       matrix:
-        python-version: [3.6]
+        python-version: [3.7]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -122,7 +122,7 @@ jobs:
     runs-on: ubuntu-18.04
     strategy:
       matrix:
-        python-version: [3.6]
+        python-version: [3.7]
     env:
       PYTHONPATH: ${{ github.workspace }}
       SUPERSET_CONFIG: tests.superset_test_config
@@ -166,7 +166,7 @@ jobs:
     runs-on: ubuntu-18.04
     strategy:
       matrix:
-        python-version: [3.6]
+        python-version: [3.7]
     env:
       PYTHONPATH: ${{ github.workspace }}
       SUPERSET_CONFIG: tests.superset_test_config
