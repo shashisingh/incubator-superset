@@ -16,26 +16,15 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import React from 'react';
-import { hot } from 'react-hot-loader/root';
-import { ThemeProvider } from 'emotion-theming';
-import { supersetTheme } from '@superset-ui/style';
-import setupApp from '../setup/setupApp';
-import setupPlugins from '../setup/setupPlugins';
-import AddSliceContainer from './AddSliceContainer';
+import { ChartProps } from '@superset-ui/chart';
+import { chart } from 'src/chart/chartReducer';
 
-setupApp();
-setupPlugins();
+export type ChartReducerInitialState = typeof chart;
 
-const addSliceContainer = document.getElementById('js-add-slice-container');
-const bootstrapData = JSON.parse(
-  addSliceContainer.getAttribute('data-bootstrap'),
-);
-
-const App = () => (
-  <ThemeProvider theme={supersetTheme}>
-    <AddSliceContainer datasources={bootstrapData.datasources} />
-  </ThemeProvider>
-);
-
-export default hot(App);
+// chart query built from initialState
+// Ref: https://github.com/apache/incubator-superset/blob/dcac860f3e5528ecbc39e58f045c7388adb5c3d0/superset-frontend/src/dashboard/reducers/getInitialState.js#L120
+export interface ChartQueryPayload extends Partial<ChartReducerInitialState> {
+  formData: ChartProps['formData'];
+  form_data?: ChartProps['rawFormData'];
+  [key: string]: unknown;
+}

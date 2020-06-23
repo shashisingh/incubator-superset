@@ -1209,6 +1209,9 @@ class SqlaTable(Model, BaseDatasource):
             self.main_dttm_col = any_date_col
         self.add_missing_metrics(metrics)
 
+        # Apply config supplied mutations.
+        config["SQLA_TABLE_MUTATOR"](self)
+
         db.session.merge(self)
         if commit:
             db.session.commit()
@@ -1329,6 +1332,14 @@ RLSFilterRoles = Table(
     Column("rls_filter_id", Integer, ForeignKey("row_level_security_filters.id")),
 )
 
+RLSFilterTables = Table(
+    "rls_filter_tables",
+    metadata,
+    Column("id", Integer, primary_key=True),
+    Column("table_id", Integer, ForeignKey("tables.id")),
+    Column("rls_filter_id", Integer, ForeignKey("row_level_security_filters.id")),
+)
+
 
 class RowLevelSecurityFilter(Model, AuditMixinNullable):
     """
@@ -1342,7 +1353,8 @@ class RowLevelSecurityFilter(Model, AuditMixinNullable):
         secondary=RLSFilterRoles,
         backref="row_level_security_filters",
     )
+    tables = relationship(
+        SqlaTable, secondary=RLSFilterTables, backref="row_level_security_filters"
+    )
 
-    table_id = Column(Integer, ForeignKey("tables.id"), nullable=False)
-    table = relationship(SqlaTable, backref="row_level_security_filters")
     clause = Column(Text, nullable=False)

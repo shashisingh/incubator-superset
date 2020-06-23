@@ -95,7 +95,6 @@ class SupersetAppInitializer:
         """
         Called after any other init tasks
         """
-        pass
 
     def configure_celery(self) -> None:
         celery_app.config_from_object(self.config["CELERY_CONFIG"])
@@ -145,14 +144,12 @@ class SupersetAppInitializer:
             AnnotationModelView,
         )
         from superset.views.api import Api
-        from superset.views.core import (
-            AccessRequestsModelView,
-            KV,
-            R,
-            Superset,
-            CssTemplateModelView,
-            CssTemplateAsyncModelView,
-        )
+        from superset.views.core import Superset
+        from superset.views.redirects import R
+        from superset.views.key_value import KV
+        from superset.views.access_requests import AccessRequestsModelView
+        from superset.views.css_templates import CssTemplateAsyncModelView
+        from superset.views.css_templates import CssTemplateModelView
         from superset.charts.api import ChartRestApi
         from superset.views.chart.views import SliceModelView, SliceAsync
         from superset.dashboards.api import DashboardRestApi
@@ -595,7 +592,7 @@ class SupersetAppInitializer:
     def register_blueprints(self) -> None:
         for bp in self.config["BLUEPRINTS"]:
             try:
-                logger.info(f"Registering blueprint: '{bp.name}'")
+                logger.info("Registering blueprint: %s", bp.name)
                 self.flask_app.register_blueprint(bp)
             except Exception:  # pylint: disable=broad-except
                 logger.exception("blueprint registration failed")

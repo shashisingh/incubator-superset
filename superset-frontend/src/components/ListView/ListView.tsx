@@ -41,8 +41,8 @@ interface Props {
   initialSort?: SortColumn[];
   filters?: Filters;
   bulkActions?: Array<{
-    key?: string;
-    name: React.ReactNode;
+    key: string;
+    name: React.ReactNode | string;
     onSelect: (rows: any[]) => any;
   }>;
   useNewUIFilters?: boolean;
@@ -125,11 +125,11 @@ const ListView: FunctionComponent<Props> = ({
             {title && filterable && (
               <>
                 <Row>
-                  <Col md={10}>
+                  <Col md={11}>
                     <h2>{t(title)}</h2>
                   </Col>
                   {filterable && (
-                    <Col md={2}>
+                    <Col md={1}>
                       <FilterMenu
                         filters={filters}
                         internalFilters={internalFilters}
